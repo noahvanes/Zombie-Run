@@ -13,8 +13,9 @@
 ;************************************************************
 ;* LEVEL                                                    *
 ;* - Contains ADT level to randomize the game-environment   *
+;* - Automatically loads new levels to make game infinite   *
 ;*                                                          *
-;*                                      - By Noah Van Es    *
+;*                                        - By Noah Van Es  *
 ;************************************************************
 
 ;random function
@@ -34,14 +35,15 @@
 ; LEVEL
 ; -----
 (define (level difficulty width height max-lvl seconds/jump floor-height background object-color)
-  (let* ((object-amount (int ((make-lineair-function 1 max-lvl 10 30) difficulty)))
+  (let* ((scale-between (lambda (min max) (int ((make-lineair-function 1 max-lvl min max) difficulty))))
+         (object-amount (scale-between 10 30))
          (number-of-objects (if (= difficulty max-lvl) -1 object-amount))
-         (globalspeed (int ((make-lineair-function 1 max-lvl -200 -500) difficulty)))
-         (min-height (int ((make-lineair-function 1 max-lvl 80 (- height 350)) difficulty)))
-         (max-height (int ((make-lineair-function 1 max-lvl 200 (- height 150)) difficulty)))
-         (min-wait (int ((make-lineair-function 1 max-lvl 80 50) difficulty)))
-         (max-wait (int ((make-lineair-function 1 max-lvl 150 115) difficulty)))
-         (allowed-buffer ((make-lineair-function 1 max-lvl 150 50) difficulty))
+         (globalspeed (scale-between -200 -500))
+         (min-height (scale-between 80 (- height 350)))
+         (max-height (scale-between 200 (- height 150)))
+         (min-wait (scale-between 80 50))
+         (max-wait (scale-between 150 115))
+         (allowed-buffer (scale-between 150 50))
          (max-jump (- (+ max-height allowed-buffer) floor-height))
          (timeout (random-int min-wait max-wait))
          (current timeout))

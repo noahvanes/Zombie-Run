@@ -1,2 +1,4 @@
 *.DS_Store
 lib/compiled/
+data/highscores.rec
+*.rkt~

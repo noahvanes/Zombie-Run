@@ -7,14 +7,14 @@
 (#%require "lib/all.rkt"
            "lib/external.rkt")
 
-;***********************************************************
-;* MAIN                                                    *
-;* - The main 'executable' of this program                 *
-;* - Contains the main ADT, the game-loop                  *
-;*                                                         * 
-;* - Based on a template by SOFT [Software Languages Lab]  * 
-;* - By Noah Van Es                                        *
-;***********************************************************
+;***************************************************************
+;* MAIN                                                        *
+;* - The main 'executable' of this program                     *
+;* - Contains the main ADT, the game-loop                      *
+;* - Also contains ADT's for menu, message-box & input-prompt  *
+;*                                                             * 
+;*                                           - By Noah Van Es  *
+;***************************************************************
 
 ; GAME LOOP 
 ; ---------
@@ -458,4 +458,6 @@
                             220 75
                             button-color))
 
+(display "[Game Loaded]")
+(newline)
 (open-menu)
