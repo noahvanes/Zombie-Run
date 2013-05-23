@@ -1,0 +1,1 @@
+("5.3" ("12757083b524d2b52fdcbb36a62995f171471c1c" . "ee32281840d77856b53224bbe7d716951de70dee") #"/Users/Noah/Development/Zombie Run/lib/OO-syntactic-sugar.rkt" (collects #"r5rs" #"main.rkt") (collects #"racket" #"base.rkt") #"/Users/Noah/Development/Zombie Run/lib/coordinates.rkt" (collects #"r5rs" #"lang" #"reader.rkt"))

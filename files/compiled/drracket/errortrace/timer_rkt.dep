@@ -1,0 +1,1 @@
+("5.3" ("c6b5287e64df7a6e9ea229175126f0dfce4a3aa2" . "85d0352750e39ebb843bdaee81df2f2f4a1ac6be") (collects #"racket" #"main.rkt") #"/Users/Noah/Documents/VUB/1e Bachelor Computer Science/Programmeerproject/Code/lib/OO-syntactic-sugar.rkt" (collects #"racket" #"lang" #"reader.rkt"))

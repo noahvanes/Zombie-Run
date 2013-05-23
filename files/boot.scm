@@ -1,35 +1,36 @@
-(let ((port (open-output-file "board")))
-  (write 
-   '(begin  
-      (define PIOA  #xFFFFF40)
-      (define PIOB  #xFFFFF60)
-      (define PIO_PER #x0000)
-      (define PIO_OER #x0010)
-      (define PIO_ODR #x0014)
-      (define PIO_PDR #x0004)
-      (define PIO_ASR #x0070)
-      (define LCD_BL 20)
-      (define J_LEFT 7)
-      (define J_UP 9)
-      (define J_RIGHT 14)
-      (define J_DOWN 8)
-      (define ash bitwise-arithmetic-shift)
-      (define (enable-io-pin! port pin)
-        (write (ash 1 pin) port PIO_PER))
-      (define (disable-io-pin! port pin)
-        (write (ash 1 pin) port PIO_PDR))
-      (define (set-as-output-pin! port pin)
-        (write (ash 1 pin) port PIO_OER))
-      (define (set-as-input-pin! port pin)
-        (write (ash 1 pin) port PIO_ODR))
-      (define (set-pin-purpose-a! port pin)
-        (write (ash 1 pin) port PIO_ASR))
-      ) port)
-  (close-output-port port))
+;;boot.scm
 
-(let ((port (open-output-file "lcd-data")))
-  (write 
-   '(begin  
+(save-as "board"
+         
+         (define PIOA  #xFFFFF40)
+         (define PIOB  #xFFFFF60)
+         (define PIO_PER #x0000)
+         (define PIO_OER #x0010)
+         (define PIO_ODR #x0014)
+         (define PIO_PDR #x0004)
+         (define PIO_ASR #x0070)
+         (define LCD_BL 20)
+         (define J_LEFT 7)
+         (define J_UP 9)
+         (define J_RIGHT 14)
+         (define J_DOWN 8)
+         (define J_PRESS 15)
+         (define ash bitwise-arithmetic-shift)
+         (define (enable-io-pin! port pin)
+           (write (ash 1 pin) port PIO_PER))
+         (define (disable-io-pin! port pin)
+           (write (ash 1 pin) port PIO_PDR))
+         (define (set-as-output-pin! port pin)
+           (write (ash 1 pin) port PIO_OER))
+         (define (set-as-input-pin! port pin)
+           (write (ash 1 pin) port PIO_ODR))
+         (define (set-pin-purpose-a! port pin)
+           (write (ash 1 pin) port PIO_ASR))
+         
+    )
+
+(save-as "lcd-data"
+         
       (define SPI_0 #xFFFE000)
       (define SCK0 18) 
       (define MOSI0 17)
@@ -60,14 +61,11 @@
       (define PASET     #x75)
       (define CASET     #x15)
       (define RAMWR     #x5C)
-      (define DISON   #xAF)) port)
-  (close-output-port port))
+      (define DISON   #xAF)
+  )
 
- 
-
-(let ((port (open-output-file "lcd")))
-  (write 
-   '(begin   
+(save-as "lcd"
+         
       (define (LCD_RESET_LOW)  (clear-pin! PIOA LCD_RESET))
       (define (LCD_RESET_HIGH) (set-pin! PIOA LCD_RESET))
       (define (wait x) x)
@@ -110,12 +108,12 @@
         (WriteSpiCommand! PTLOUT)
         (WriteSpiCommand! DATCTL #x00 #x03 #x02)
         (WriteSpiCommand! NOP)
-        (WriteSpiCommand! DISON))) port)
-  (close-output-port port))
-
-(let ((port (open-output-file "lcd-f")))
-  (write 
-   '(begin  
+        (WriteSpiCommand! DISON))
+      
+      )
+   
+(save-as "lcd-f"
+         
       (define (fill-rectangle! x y width height colour)
         (let* ((x1 x)
                (x2 (+ x width -1))
@@ -125,19 +123,17 @@
           (WriteSpiCommand! PASET y1 y2)
           (WriteSpiCommand! CASET x1 x2)
           (WriteSpiCommand! RAMWR)         
-          (spi-put-n SPI_0 colour i))))
-      port)
-  (close-output-port port))
+          (spi-put-n SPI_0 colour i)))
+      
+      )
 
-
-(let ((port (open-output-file "start-up")))
-  (write 
-   '(begin  
+(save-as "start-up" 
+         
       (load "board")
       (load "lcd-data")
       (load "lcd")
       (load "lcd-f")
       (InitLCD)
-      (LCDSettings))
-   port)
-  (close-output-port port))
+      (LCDSettings)
+      
+      )
